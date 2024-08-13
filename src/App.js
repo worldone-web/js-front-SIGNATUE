@@ -1,4 +1,5 @@
 import { Component } from "./core/heropy";
+import FruitItem from "./components/FruitItem";
 
 export default class App extends Component{
     constructor(){
@@ -16,11 +17,19 @@ export default class App extends Component{
         this.el.innerHTML=`
         <h1>Fruits</h1>
         <ul>
-            ${this.state.fruits
-                .filter((fruit)=>fruit.price < 1500)
-                .map((fruit)=>`<li>${fruit.name}</li>`)
-                .join('')}
+            
         </ul>
         `
+
+        const ulEl= this.el.querySelector('ul')
+        ulEl.append(...this.state.fruits
+            .filter((fruit)=>fruit.price < 1500)
+            .map((fruit)=>new FruitItem({
+                props:{
+                    name: fruit.name,
+                    price: fruit.price
+                }
+            }).el)
+        )
     }
 }
