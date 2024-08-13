@@ -16,3 +16,15 @@ export class Component{
 
     }
 }
+
+
+/////// Router /////////
+export function createRouter(routes){
+    return function(){
+        window.addEventListener('popstate',()=>{
+            routeRender(routes) // 페이지 렌더링 함수
+        })
+        routeRender(routes)
+    }
+
+}
