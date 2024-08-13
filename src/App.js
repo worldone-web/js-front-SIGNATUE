@@ -4,27 +4,23 @@ export default class App extends Component{
     constructor(){
         super({
             state: {
-                inputText:''
+                fruits:[
+                    {name:'Apple',price:1000},
+                    {name:'Buanna',preice:2000}
+                ]
             }
         })
     }
     
     render(){
-        this.el.classList.add('search')
         this.el.innerHTML=`
-        <input />
-        <button>Click!</button>
+        <h1>Fruits</h1>
+        <ul>
+            ${this.state.fruits
+                .filter((fruit)=>fruit.price < 1500)
+                .map((fruit)=>`<li>${fruit.name}</li>`)
+                .join('')}
+        </ul>
         `
-
-
-        const inputEl=this.el.querySelector('input') //App.js에서 input 요소를 찾음
-        inputEl.addEventListener('input',()=>{
-            this.state.inputText=inputEl.value
-        })
-
-        const buttonEl = this.el.querySelector('button')
-        buttonEl.addEventListener('click',()=>{
-            console.log(this.state.inputText)
-        })
     }
 }
