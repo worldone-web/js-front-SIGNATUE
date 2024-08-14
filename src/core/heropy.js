@@ -61,3 +61,23 @@ export function createRouter(routes){
     }
 
 }
+
+//////// Store ////////
+export class Store{
+    constructor(state){
+        this.state={}
+        this.observers={}
+        for(const key in state){
+            Object.defineProperty(this.state, key, { // 속성 정의 메서드
+                get: () => state[key], // state['message']
+                set: (val) => {
+                    state[key]=val
+                    this.observers[key]() // 다른 컴포넌트에서의 값 최신화
+                }
+            })
+        }
+    }
+    subscribe(key, cb){ //state 객체 감시 - 값변경
+        this.observers[key]=cb
+    }
+}
