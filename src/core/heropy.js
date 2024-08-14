@@ -72,12 +72,14 @@ export class Store{
                 get: () => state[key], // state['message']
                 set: (val) => {
                     state[key]=val
-                    this.observers[key]() // 다른 컴포넌트에서의 값 최신화
+                    this.observers[key].forEach(observer =>observer()) // 다른 컴포넌트에서의 값 최신화
                 }
             })
         }
     }
     subscribe(key, cb){ //state 객체 감시 - 값변경
-        this.observers[key]=cb
+        Array.isArray(this.observers[key])
+         ? this.observers[key].push(cb) // 각 컴포넌트의 콜백함수 추가
+         : this.observers[key]=[cb] // 첫 시행에서 배열객체 생성
     }
 }
