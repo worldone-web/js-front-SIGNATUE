@@ -19,9 +19,42 @@ export class Component{
 
 
 /////// Router /////////
+function routeRender(routes){
+    if(!location.hash){ // hash가 없는 경우 대체 페이지
+        history.replaceState(null,'','/#/') // 데이터 상태, 제목, 주소
+    }
+
+    const routerView = document.querySelector('router-view')
+    // http://localhost:1234/#/about?name=heropy
+    // #/about?name=heropy -> location.hash를 이용해 판별
+    const [ hash, queryString='' ]=location.hash.split('?') // hash 주소, queryString 
+
+    // queryString 예시
+    // a=123&b=456
+    // ['a=123', 'b=456']
+    // {a:'123,b:'456'}
+    const query = queryString
+        .split('&')
+        .reduce((acc, cur) => {
+            const [key, value] = cur.split('=')
+            acc[key] = value
+            return acc
+        }, {})
+    history.replaceState(query,'')
+
+    const currentRoute = routes.find(route=>{
+        return new RegExp(`${route.path}/?$`).test(hash) // '/'가 있을 수도 있고 없을 수도 있다.
+        // /#\/about\/?$/
+    })
+    routerView.innerHTML=''
+    routerView.append(new currentRoute.component().el)
+
+    window.scrollTo(0,0)
+
+}
 export function createRouter(routes){
     return function(){
-        window.addEventListener('popstate',()=>{
+        window.addEventListener('popstate',()=>{ // 주소부분 변경시 발생
             routeRender(routes) // 페이지 렌더링 함수
         })
         routeRender(routes)

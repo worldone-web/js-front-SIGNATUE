@@ -8,7 +8,7 @@ export default class App extends Component{
         const routerView = document.createElement('router-view')
         this.el.append(
             new TheHeader().el,
-            routerView
+            routerView // 페이지 출력
         )
     }
 }

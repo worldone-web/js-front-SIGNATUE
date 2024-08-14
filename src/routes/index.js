@@ -6,6 +6,6 @@ import About from "./About";
 
 
 export default createRouter([
-    {path:'#/',component:Home},
+    {path:'#/',component:Home}, // 경로 , 출력할 페이지
     {path:'#/about',component:About}
 ])
